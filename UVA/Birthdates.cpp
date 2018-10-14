@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include <vector>
 using namespace std;
 
 struct Person {
@@ -25,7 +24,7 @@ int main() {
     int n;
     cin >> n;
 
-    vector<Person> people(n);
+    Person *people = new Person[n];
 
     for (int i = 0; i < n; i++) {
         cin >> people[i].name;
@@ -45,6 +44,8 @@ int main() {
 
     cout << youngestPerson.name << endl;
     cout << oldestPerson.name << endl;
+
+    delete[] people;
 
     return 0;
 }
