@@ -1,16 +1,6 @@
-from sys import stdin, stdout
+from sys import stdin
 from math import sqrt
 import decimal
-
-def isSquare(apositiveint):
-    x = apositiveint // 2
-    seen = set([x])
-    while x * x != apositiveint:
-        x = (x + (apositiveint // x)) // 2
-        if x in seen:
-            return False
-        seen.add(x)
-    return True
 
 if __name__ == '__main__':
     decimal.getcontext().prec = 5000
