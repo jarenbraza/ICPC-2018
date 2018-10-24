@@ -30,7 +30,7 @@ vector<int> generateVampireNumbers() {
     // (Example: Two or more of the same input is given)
     for (a = 2; a <= 1e3; a++) {
         // Note that 1000255 is next smallest vampire number after 10e6, the largest possible input
-        for (b = a; (b <= 1e6) && (a * b <= 1000255); b++) {
+        for (b = a; a * b <= 1000255; b++) {
             candidate = a * b;
             if (isVampireNumber(candidate, a, b))
                 vampNums.push_back(candidate);
