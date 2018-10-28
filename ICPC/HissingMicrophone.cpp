@@ -22,12 +22,8 @@ int main() {
             else
                 sCount = 0;
         }
-        if (!resultFound) {
-            if (sCount == 2)
-                cout << "hiss" << endl;
-            else
-                cout << "no hiss" << endl;
-        }
+        if (!resultFound)
+            cout << "no hiss" << endl;
     }
 
     return 0;
