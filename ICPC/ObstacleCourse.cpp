@@ -1,12 +1,15 @@
 // 4435 - Obstacle Course
 
 // Warning! Disgusting O(V^2) Djikstra implementation below
+// At the time, could not figure out how to make an STL priority queue with removable keys
 
+#include <algorithm>
 #include <iostream>
-#include <queue>
 #include <vector>
 using namespace std;
 
+// Weights range from 0-9, and there will be at most 125x125 = 15625 vertices
+// So, this is an sufficiently large INF for Djikstra min-distance grid initialization
 #define INF 1000000
 
 struct Point {
@@ -65,15 +68,16 @@ vector<Point> Graph::getNeighbors(Point& p) {
 }
 
 void Graph::performDjikstra() {
-    queue<Point> q;
-    q.push(Point(0, 0));
+    // Start from top-left corner
+    Point p(0, 0);
     minDist[0][0] = grid[0][0];
 
-    while (!q.empty()) {
-        Point p = q.front();
-        q.pop();
+    // Process each vertex
+    // Point (-1, -1) is special case that appears when all vertices have been visited 
+    while ((p.x != -1) && (p.y != -1)) {
         visited[p.x][p.y] = true;
 
+        // Update distance of neighbors for current vertex
         for (Point n : getNeighbors(p)) {
             if (visited[n.x][n.y])
                 continue;
@@ -81,9 +85,8 @@ void Graph::performDjikstra() {
             minDist[n.x][n.y] = min(minDist[n.x][n.y], minDist[p.x][p.y] + grid[n.x][n.y]);
         }
 
-        Point newFront = getMinDistPoint();
-        if (newFront.x != -1 && newFront.y != -1)
-            q.push(newFront);
+        // Process point with next smallest distance that is unvisited
+        p = getMinDistPoint();
     }
 }
 
@@ -91,6 +94,7 @@ Point Graph::getMinDistPoint() {
     int currMinDist = INF;
     Point minDistPoint(-1, -1);
 
+    // Finds unvisited point of minimal distance
     for (int i = 0; i < N; i++)
         for (int j = 0; j < N; j++)
             if (!visited[i][j] && minDist[i][j] <= currMinDist)
